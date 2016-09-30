@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">DateTimeSeer</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="month_ago_singular">1 month ago</string>
+    <string name="month_ago_plural">%d months ago</string>
+    <string name="year_ago_singular">1 year ago</string>
+    <string name="year_ago_plural">%d years ago</string>
+    <string name="hours_plural">%d hours</string>
+    <string name="hour_singular">%d hour</string>
+    <string name="minutes_plural">%d minutes</string>
+    <string name="minute_singular">%d minute</string>
+    <string name="day_singular">1 day</string>
+    <string name="days_plural">%d days</string>
+</resources>

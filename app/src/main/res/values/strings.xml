@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DateTimeSeerSample</string>
+    <string name="auto_complete_hint">Awesomeness waiting for you…</string>
+    <string name="examples_title">Try some of these:</string>
+    <string name="examples">Tom\nTomorrow\nTomorrow morning\ntomorrow evening\n3 days\n50m\n10mins\n3 months</string>
+    <string name="awesome_time">%s sounds amazing</string>
+</resources>
