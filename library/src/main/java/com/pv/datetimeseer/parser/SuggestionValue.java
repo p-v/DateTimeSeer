@@ -2,44 +2,49 @@ package com.pv.datetimeseer.parser;
 
 import android.support.v4.util.SparseArrayCompat;
 
+import com.pv.datetimeseer.parser.model.DateItem;
+import com.pv.datetimeseer.parser.model.RelativeDayItem;
+import com.pv.datetimeseer.parser.model.RelativeDayNumItem;
+import com.pv.datetimeseer.parser.model.TimeItem;
+
 /**
  * Values regarding the user input
  *
  * @author p-v
  */
-class SuggestionValue extends SparseArrayCompat<SuggestionValue.LocalItemItem> {
+public class SuggestionValue extends SparseArrayCompat<SuggestionValue.LocalItemItem> {
 
-    static final int RELATIVE_DAY = 0x01;
-    static final int DAY_OF_WEEK = 0x02;
-    static final int TIME_OF_DAY = 0x04;
-    static final int MONTH = 0x08;
-    static final int NUMBER = 0x10;
-    static final int TIME = 0x20;
-    static final int DATE = 0x40;
-    static final int DAY_OF_WEEK_NEXT = 0x80;
-    static final int RELATIVE_DAY_NUMBER = 0x0100;
-    static final int OTHER = 0x0200;
+    public static final int RELATIVE_DAY = 0x01;
+    public static final int DAY_OF_WEEK = 0x02;
+    public static final int TIME_OF_DAY = 0x04;
+    public static final int MONTH = 0x08;
+    public static final int NUMBER = 0x10;
+    public static final int TIME = 0x20;
+    public static final int DATE = 0x40;
+    public static final int DAY_OF_WEEK_NEXT = 0x80;
+    public static final int RELATIVE_DAY_NUMBER = 0x0100;
+    public static final int OTHER = 0x0200;
 
-    private TimeSuggestionHandler.TimeItem timeItem;
+    private TimeItem timeItem;
     private LocalItemItem todItem;
-    private RelativeTimeSuggestionHandler.RelativeDayItem relDayItem;
-    private NumberRelativeTimeSuggestionHandler.RelativeDayNumItem relativeDayNumItem;
+    private RelativeDayItem relDayItem;
+    private RelativeDayNumItem relativeDayNumItem;
     private LocalItemItem dowItem;
     private LocalItemItem nextDowItem;
     private LocalItemItem monthItem;
-    private DateSuggestionHandler.DateItem dateItem;
+    private DateItem dateItem;
     private LocalItemItem numberItem;
     private LocalItemItem otherItem;
 
     void init() {
-        relDayItem = (RelativeTimeSuggestionHandler.RelativeDayItem) this.get(RELATIVE_DAY);
-        relativeDayNumItem = (NumberRelativeTimeSuggestionHandler.RelativeDayNumItem) this.get(RELATIVE_DAY_NUMBER);
+        relDayItem = (RelativeDayItem) this.get(RELATIVE_DAY);
+        relativeDayNumItem = (RelativeDayNumItem) this.get(RELATIVE_DAY_NUMBER);
         dowItem = this.get(DAY_OF_WEEK);
         nextDowItem = this.get(DAY_OF_WEEK_NEXT);
         monthItem = this.get(MONTH);
-        dateItem = (DateSuggestionHandler.DateItem) this.get(DATE);
+        dateItem = (DateItem) this.get(DATE);
         todItem = this.get(TIME_OF_DAY);
-        timeItem = (TimeSuggestionHandler.TimeItem) this.get(TIME);
+        timeItem = (TimeItem) this.get(TIME);
         numberItem = this.get(NUMBER);
         otherItem = this.get(OTHER);
     }
@@ -62,7 +67,7 @@ class SuggestionValue extends SparseArrayCompat<SuggestionValue.LocalItemItem> {
 
     }
 
-    public TimeSuggestionHandler.TimeItem getTimeItem() {
+    public TimeItem getTimeItem() {
         return timeItem;
     }
 
@@ -70,7 +75,7 @@ class SuggestionValue extends SparseArrayCompat<SuggestionValue.LocalItemItem> {
         return todItem;
     }
 
-    public RelativeTimeSuggestionHandler.RelativeDayItem getRelDayItem() {
+    public RelativeDayItem getRelDayItem() {
         return relDayItem;
     }
 
@@ -86,11 +91,11 @@ class SuggestionValue extends SparseArrayCompat<SuggestionValue.LocalItemItem> {
         return monthItem;
     }
 
-    public DateSuggestionHandler.DateItem getDateItem() {
+    public DateItem getDateItem() {
         return dateItem;
     }
 
-    public NumberRelativeTimeSuggestionHandler.RelativeDayNumItem getRelativeDayNumItem() {
+    public RelativeDayNumItem getRelativeDayNumItem() {
         return relativeDayNumItem;
     }
 

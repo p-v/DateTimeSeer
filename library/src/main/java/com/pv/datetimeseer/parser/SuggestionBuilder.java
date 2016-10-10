@@ -8,12 +8,18 @@ import com.pv.datetimeseer.R;
 import com.pv.datetimeseer.SuggestionRow;
 import com.pv.datetimeseer.parser.helper.Constants;
 import com.pv.datetimeseer.parser.helper.DateTimeUtils;
+import com.pv.datetimeseer.parser.model.TimeItem;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
+import static com.pv.datetimeseer.parser.helper.Constants.TOD_AFTERNOON;
+import static com.pv.datetimeseer.parser.helper.Constants.TOD_EVENING;
+import static com.pv.datetimeseer.parser.helper.Constants.TOD_MORNING;
+import static com.pv.datetimeseer.parser.helper.Constants.TOD_NIGHT;
 
 /**
  * Abstract Suggestion Handler
@@ -24,10 +30,9 @@ import java.util.Locale;
  *
  * @author p-v
  */
-abstract class SuggestionHandler {
+abstract class SuggestionBuilder {
 
-    private SuggestionHandler nextHandler;
-    private SuggestionHandler nextBuilder;
+    private SuggestionBuilder nextBuilder;
     Config config;
 
     static final int EVENING_TIME = 5;
@@ -36,7 +41,7 @@ abstract class SuggestionHandler {
     static final int MORNING_TIME_WEEKEND = 10 * 60;
     static final int WEEKEND = Constants.Weekend.SATURDAY_SUNDAY;
 
-    SuggestionHandler(Config config) {
+    SuggestionBuilder(Config config) {
         if (config == null) {
             config = new Config.ConfigBuilder().build();
         }
@@ -44,20 +49,11 @@ abstract class SuggestionHandler {
     }
 
     /**
-     * Sets the next handler after the current handler
-     *
-     * @param nextHandler next handler after the current handler
-     */
-    void setNextHandler(SuggestionHandler nextHandler) {
-        this.nextHandler = nextHandler;
-    }
-
-    /**
      * Sets the next builder after the current builder
      *
      * @param nextBuilder next builder after the current builder
      */
-    void setNextBuilder(SuggestionHandler nextBuilder) {
+    void setNextBuilder(SuggestionBuilder nextBuilder) {
         this.nextBuilder = nextBuilder;
     }
 
@@ -71,21 +67,6 @@ abstract class SuggestionHandler {
     public void build(Context context, SuggestionValue suggestionValue, List<SuggestionRow> suggestionList) {
         if (nextBuilder != null) {
             nextBuilder.build(context, suggestionValue, suggestionList);
-        }
-    }
-
-    /**
-     * Interprets the input and converts it to SuggestionValue which can be used to build the
-     * suggestion list
-     *
-     * @param context The context to use.
-     * @param input User input.
-     * @param suggestionValue The value where all the related values are stored based on input (pass
-     *                        empty the first time)
-     */
-    public void handle(Context context, String input, SuggestionValue suggestionValue) {
-        if (nextHandler != null) {
-            nextHandler.handle(context, input, suggestionValue);
         }
     }
 
@@ -172,12 +153,12 @@ abstract class SuggestionHandler {
      * @param timeItem Time item
      * @return return the Value having display and real value
      */
-    final Value getTimeValue(@NonNull Context context, @NonNull SuggestionValue.LocalItemItem todItem, TimeSuggestionHandler.TimeItem timeItem) {
+    final Value getTimeValue(@NonNull Context context, @NonNull SuggestionValue.LocalItemItem todItem, TimeItem timeItem) {
         Value value = null;
         switch (todItem.value) {
 
             // Morning
-            case TODSuggestionHandler.TOD_MORNING:
+            case TOD_MORNING:
                 if (timeItem == null) {
                     Calendar cal = Calendar.getInstance();
                     if (DateTimeUtils.isWeekend(cal.get(Calendar.DAY_OF_WEEK), WEEKEND)) {
@@ -204,7 +185,7 @@ abstract class SuggestionHandler {
                 break;
 
             // Afternoon
-            case TODSuggestionHandler.TOD_AFTERNOON:
+            case TOD_AFTERNOON:
                 if (timeItem == null) {
                     int afternoonTime = AFTERNOON_TIME;
                     int hour = afternoonTime / 60;
@@ -218,7 +199,7 @@ abstract class SuggestionHandler {
                 break;
 
             // Evening
-            case TODSuggestionHandler.TOD_EVENING:
+            case TOD_EVENING:
                 if (timeItem == null) {
                     value = getTimeValue(context, EVENING_TIME, 0, "pm", null);
                 } else {
@@ -229,7 +210,7 @@ abstract class SuggestionHandler {
                 break;
 
             // Night
-            case TODSuggestionHandler.TOD_NIGHT:
+            case TOD_NIGHT:
                 if (timeItem == null) {
                     int nightTime = 10;
                     value = getTimeValue(context, nightTime, 0, "pm", null);

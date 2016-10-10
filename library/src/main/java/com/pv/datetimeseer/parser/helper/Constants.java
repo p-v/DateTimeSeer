@@ -36,5 +36,10 @@ public class Constants {
     public static final String MONTH_FORMAT_SHORT = "MMM";
     public static final String MONTH_FORMAT_LONG = "MMMM";
 
+    public static final int TOD_MORNING = 1;
+    public static final int TOD_AFTERNOON = 2;
+    public static final int TOD_EVENING = 3;
+    public static final int TOD_NIGHT = 4;
+
 
 }

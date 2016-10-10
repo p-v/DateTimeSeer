@@ -6,53 +6,19 @@ import com.pv.datetimeseer.Config;
 import com.pv.datetimeseer.R;
 import com.pv.datetimeseer.SuggestionRow;
 import com.pv.datetimeseer.parser.helper.DateTimeUtils;
+import com.pv.datetimeseer.parser.model.RelativeDayItem;
+import com.pv.datetimeseer.parser.model.TimeItem;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author p-v
  */
-class RelativeTimeSuggestionHandler extends SuggestionHandler {
+class RelativeTimeSuggestionBuilder extends SuggestionBuilder {
 
-    private static final String REGEX = "\\b(?:(tod(?:a(?:y)?)?)|(tom(?:o(?:r(?:r(?:o(?:w)?)?)?)?)?)" +
-            "|(day after tomorrow)|((?:ton(?:i(?:g(?:(?:h)?t)?)?)?)|(?:ton(?:i(?:t(?:e)?)?)?)))\\b";
-    private Pattern pRel;
-
-    RelativeTimeSuggestionHandler(Config config) {
+    RelativeTimeSuggestionBuilder(Config config) {
         super(config);
-        pRel = Pattern.compile(REGEX, Pattern.CASE_INSENSITIVE);
-    }
-    class RelativeDayItem extends SuggestionValue.LocalItemItem {
-
-        boolean isPartial;
-
-        RelativeDayItem(int value, boolean isPartial) {
-            super(value);
-            this.isPartial = isPartial;
-        }
-    }
-
-    @Override
-    public void handle(Context context, String input, SuggestionValue suggestionValue) {
-        Matcher m = pRel.matcher(input);
-        String text;
-        if (m.find()) {
-            if ((text = m.group(1)) != null) {
-                suggestionValue.appendSuggestion(SuggestionValue.RELATIVE_DAY,
-                        new RelativeDayItem(0, !"today".equalsIgnoreCase(text.trim())));
-            } else if ((text = m.group(2)) != null) {
-                suggestionValue.appendSuggestion(SuggestionValue.RELATIVE_DAY,
-                        new RelativeDayItem(1, !"tomorrow".equalsIgnoreCase(text.trim())));
-            } else if (m.group(3) != null){
-                suggestionValue.appendSuggestion(SuggestionValue.RELATIVE_DAY, new RelativeDayItem(2, false));
-            } else {
-                suggestionValue.appendSuggestion(SuggestionValue.RELATIVE_DAY, new RelativeDayItem(10, false));
-            }
-        }
-        super.handle(context, input, suggestionValue);
     }
 
     @Override
@@ -60,7 +26,7 @@ class RelativeTimeSuggestionHandler extends SuggestionHandler {
         RelativeDayItem relItem = suggestionValue.getRelDayItem();
         if (relItem != null) {
             SuggestionValue.LocalItemItem todItem = suggestionValue.getTodItem();
-            TimeSuggestionHandler.TimeItem timeItem = suggestionValue.getTimeItem();
+            TimeItem timeItem = suggestionValue.getTimeItem();
             Value timeValue = null;
             if (todItem != null || timeItem != null) {
                 if (todItem == null) {

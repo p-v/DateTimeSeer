@@ -4,6 +4,13 @@ import android.content.Context;
 
 import com.pv.datetimeseer.Config;
 import com.pv.datetimeseer.SuggestionRow;
+import com.pv.datetimeseer.parser.handler.english.DOWSuggestionHandler;
+import com.pv.datetimeseer.parser.handler.english.DateSuggestionHandler;
+import com.pv.datetimeseer.parser.handler.english.InitialSuggestionHandler;
+import com.pv.datetimeseer.parser.handler.english.NumberRelativeTimeSuggestionHandler;
+import com.pv.datetimeseer.parser.handler.english.RelativeTimeSuggestionHandler;
+import com.pv.datetimeseer.parser.handler.english.TODSuggestionHandler;
+import com.pv.datetimeseer.parser.handler.english.TimeSuggestionHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,19 +21,21 @@ import java.util.List;
 
 public class SeerParserInitializer {
 
+    private InitialSuggestionBuilder initialSuggestionBuilder;
     private InitialSuggestionHandler initialSuggestionHandler;
     private Context context;
 
     public SeerParserInitializer(Context context, Config config) {
         this.context = context;
 
-        initialSuggestionHandler = new InitialSuggestionHandler(config);
-        NumberRelativeTimeSuggestionHandler numberRelativeTimeSuggestionHandler = new NumberRelativeTimeSuggestionHandler(config);
-        RelativeTimeSuggestionHandler relativeTimeSuggestionHandler = new RelativeTimeSuggestionHandler(config);
-        DateSuggestionHandler dateSuggestionHandler = new DateSuggestionHandler(config);
-        DOWSuggestionHandler dowSuggestionHandler = new DOWSuggestionHandler(config);
-        TimeSuggestionHandler timeSuggestionHandler = new TimeSuggestionHandler(config);
-        TODSuggestionHandler todSuggestionHandler = new TODSuggestionHandler(config);
+        // handlers
+        initialSuggestionHandler = new InitialSuggestionHandler();
+        NumberRelativeTimeSuggestionHandler numberRelativeTimeSuggestionHandler = new NumberRelativeTimeSuggestionHandler();
+        RelativeTimeSuggestionHandler relativeTimeSuggestionHandler = new RelativeTimeSuggestionHandler();
+        DateSuggestionHandler dateSuggestionHandler = new DateSuggestionHandler();
+        DOWSuggestionHandler dowSuggestionHandler = new DOWSuggestionHandler();
+        TimeSuggestionHandler timeSuggestionHandler = new TimeSuggestionHandler();
+        TODSuggestionHandler todSuggestionHandler = new TODSuggestionHandler();
 
         // build handler chain
         initialSuggestionHandler.setNextHandler(numberRelativeTimeSuggestionHandler);
@@ -36,13 +45,22 @@ public class SeerParserInitializer {
         dowSuggestionHandler.setNextHandler(timeSuggestionHandler);
         timeSuggestionHandler.setNextHandler(todSuggestionHandler);
 
+        // builders
+        initialSuggestionBuilder = new InitialSuggestionBuilder(config);
+        NumberRelativeTimeSuggestionBuilder numberRelativeTimeSuggestionBuilder = new NumberRelativeTimeSuggestionBuilder(config);
+        RelativeTimeSuggestionBuilder relativeTimeSuggestionBuilder = new RelativeTimeSuggestionBuilder(config);
+        DateSuggestionBuilder dateSuggestionBuilder = new DateSuggestionBuilder(config);
+        DOWSuggestionBuilder dowSuggestionBuilder = new DOWSuggestionBuilder(config);
+        TimeSuggestionBuilder timeSuggestionBuilder = new TimeSuggestionBuilder(config);
+        TODSuggestionBuilder todSuggestionBuilder = new TODSuggestionBuilder(config);
+
         // build builder chain
-        initialSuggestionHandler.setNextBuilder(timeSuggestionHandler);
-        timeSuggestionHandler.setNextBuilder(todSuggestionHandler);
-        todSuggestionHandler.setNextBuilder(numberRelativeTimeSuggestionHandler);
-        numberRelativeTimeSuggestionHandler.setNextBuilder(relativeTimeSuggestionHandler);
-        relativeTimeSuggestionHandler.setNextBuilder(dateSuggestionHandler);
-        dateSuggestionHandler.setNextBuilder(dowSuggestionHandler);
+        initialSuggestionBuilder.setNextBuilder(timeSuggestionBuilder);
+        timeSuggestionBuilder.setNextBuilder(todSuggestionBuilder);
+        todSuggestionBuilder.setNextBuilder(numberRelativeTimeSuggestionBuilder);
+        numberRelativeTimeSuggestionBuilder.setNextBuilder(relativeTimeSuggestionBuilder);
+        relativeTimeSuggestionBuilder.setNextBuilder(dateSuggestionBuilder);
+        dateSuggestionBuilder.setNextBuilder(dowSuggestionBuilder);
     }
 
     public List<SuggestionRow> buildSuggestions(String input) {
@@ -60,7 +78,7 @@ public class SeerParserInitializer {
         suggestionValue.init();
 
         // Build suggestion list base on the user input (i.e. the suggestion value)
-        initialSuggestionHandler.build(context, suggestionValue, suggestionList);
+        initialSuggestionBuilder.build(context, suggestionValue, suggestionList);
 
         return suggestionList;
     }

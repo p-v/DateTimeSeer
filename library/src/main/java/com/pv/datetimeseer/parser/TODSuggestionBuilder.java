@@ -5,47 +5,19 @@ import android.content.Context;
 import com.pv.datetimeseer.Config;
 import com.pv.datetimeseer.R;
 import com.pv.datetimeseer.SuggestionRow;
+import com.pv.datetimeseer.parser.model.RelativeDayNumItem;
+import com.pv.datetimeseer.parser.model.TimeItem;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author p-v
  */
-class TODSuggestionHandler extends SuggestionHandler {
+class TODSuggestionBuilder extends SuggestionBuilder {
 
-    static final int TOD_MORNING = 1;
-    static final int TOD_AFTERNOON = 2;
-    static final int TOD_EVENING = 3;
-    static final int TOD_NIGHT = 4;
-
-    private static final String REGEX = "\\b(?:(morn(?:i(?:n(?:g)?)?)?)|(after(?=(?:\\S+|$))(?:n(?:o(?:o(?:n)?)?)?)?)|(even(?:i(?:n(?:g)?)?)?)|(ni(?:g(?:h(?:t)?)?)?))\\b";
-    private Pattern pTod;
-
-    TODSuggestionHandler(Config config) {
+    TODSuggestionBuilder(Config config) {
         super(config);
-        pTod = Pattern.compile(REGEX, Pattern.CASE_INSENSITIVE);
-    }
-
-    @Override
-    public void handle(Context context, String input, SuggestionValue suggestionValue) {
-        Matcher matcher = pTod.matcher(input);
-        if (matcher.find()) {
-            int value;
-            if (matcher.group(1) != null) {
-                value = TOD_MORNING;
-            } else if (matcher.group(2) != null) {
-                value = TOD_AFTERNOON;
-            } else if(matcher.group(3) != null) {
-                value = TOD_EVENING;
-            } else {
-                value = TOD_NIGHT;
-            }
-            suggestionValue.appendSuggestion(SuggestionValue.TIME_OF_DAY, value);
-        }
-        super.handle(context, input, suggestionValue);
     }
 
     @Override
@@ -55,8 +27,8 @@ class TODSuggestionHandler extends SuggestionHandler {
         SuggestionValue.LocalItemItem nextDowItem = suggestionValue.getNextDowItem();
         SuggestionValue.LocalItemItem monthItem = suggestionValue.getMonthItem();
         SuggestionValue.LocalItemItem dateItem = suggestionValue.getDateItem();
-        TimeSuggestionHandler.TimeItem timeItem = suggestionValue.getTimeItem();
-        NumberRelativeTimeSuggestionHandler.RelativeDayNumItem
+        TimeItem timeItem = suggestionValue.getTimeItem();
+        RelativeDayNumItem
                 relNumItem = suggestionValue.getRelativeDayNumItem();
         SuggestionValue.LocalItemItem todItem = suggestionValue.getTodItem();
 
