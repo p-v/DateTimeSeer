@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">DateTimeSeer</string>
+
+    <!-- English strings -->
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
     <string name="month_ago_singular">1 month ago</string>

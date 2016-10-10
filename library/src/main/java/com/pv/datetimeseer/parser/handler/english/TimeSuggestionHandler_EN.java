@@ -15,12 +15,12 @@ import java.util.regex.Pattern;
  * @author p-v
  */
 
-public class TimeSuggestionHandler extends SuggestionHandler {
+public class TimeSuggestionHandler_EN extends SuggestionHandler {
 
     private static final String TIME_RGX = "\\b((?:2[0-3])|(?:1\\d)|(?:0?\\d))(?:(?::|\\s)((?:0?\\d)|(?:[0-5][0-9]?)))?\\s{0,2}([ap](?:\\.?m\\.?)?)?\\b";
     private Pattern timePattern;
 
-    public TimeSuggestionHandler() {
+    public TimeSuggestionHandler_EN() {
         timePattern = Pattern.compile(TIME_RGX, Pattern.CASE_INSENSITIVE);
     }
 
@@ -66,8 +66,5 @@ public class TimeSuggestionHandler extends SuggestionHandler {
 
         super.handle(context, input, suggestionValue);
     }
-    @Override
-    public int getType() {
-        return 0;
-    }
+
 }

@@ -13,12 +13,12 @@ import java.util.regex.Pattern;
  * @author p-v
  */
 
-public class NumberRelativeTimeSuggestionHandler extends SuggestionHandler {
+public class NumberRelativeTimeSuggestionHandler_EN extends SuggestionHandler {
 
     private static final String REGEX = "\\b(?:(?:(?:(?:after\\s{1,2})?(\\d\\d?)\\s{0,2})|next\\s{1,2})(?:(month?)|(m(?:i(?:n(?:u(?:te?)?)?)?)?)|(we(?:ek?))|(d(?:ay?))|(hr|h(?:o(?:ur?)?)?))s?)\\b";
     private Pattern pRel;
 
-    public NumberRelativeTimeSuggestionHandler(){
+    public NumberRelativeTimeSuggestionHandler_EN(){
         pRel = Pattern.compile(REGEX, Pattern.CASE_INSENSITIVE);
     }
 
@@ -60,8 +60,5 @@ public class NumberRelativeTimeSuggestionHandler extends SuggestionHandler {
         }
         super.handle(context, input, suggestionValue);
     }
-    @Override
-    public int getType() {
-        return 0;
-    }
+
 }

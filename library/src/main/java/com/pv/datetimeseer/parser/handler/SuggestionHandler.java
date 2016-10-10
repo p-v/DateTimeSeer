@@ -57,6 +57,4 @@ public abstract class SuggestionHandler {
             nextHandler.handle(context, input, suggestionValue);
         }
     }
-
-    public abstract @Type int getType();
 }

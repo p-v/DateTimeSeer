@@ -1,6 +1,11 @@
 package com.pv.datetimeseer;
 
+import android.support.annotation.IntDef;
+
 import com.pv.datetimeseer.parser.helper.Constants;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * @author p-v
@@ -8,11 +13,19 @@ import com.pv.datetimeseer.parser.helper.Constants;
 
 public class Config {
 
+    @IntDef({Language.ENGLISH})
+
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Language {
+        int ENGLISH = 0;
+    }
+
     private final String dateFormatWithYear;
     private final String dateFormatWithoutYear;
     private final String timeFormat24Hours;
     private final String timeFormat12HoursWithMins;
     private final String timeFormat12HoursWithoutMins;
+    private final @Language int language;
 
     private Config(ConfigBuilder builder) {
         this.dateFormatWithYear = builder.dateFormatWithYear;
@@ -20,6 +33,7 @@ public class Config {
         this.timeFormat24Hours = builder.timeFormat24Hours;
         this.timeFormat12HoursWithMins = builder.timeFormat12HoursWithMins;
         this.timeFormat12HoursWithoutMins = builder.timeFormat12HoursWithoutMins;
+        this.language = builder.language;
     }
 
     public String getDateFormatWithYear() {
@@ -44,6 +58,10 @@ public class Config {
                 Constants.TIME_FORMAT_12HOUR_WITHOUT_MINS : timeFormat12HoursWithoutMins;
     }
 
+    public @Language int getLanguage() {
+        return language;
+    }
+
 
     public static class ConfigBuilder {
 
@@ -52,6 +70,7 @@ public class Config {
         private String timeFormat24Hours;
         private String timeFormat12HoursWithMins;
         private String timeFormat12HoursWithoutMins;
+        private @Language int language;
 
         public ConfigBuilder setDateFormatWithYear(String dateFormatWithYear) {
             this.dateFormatWithYear = dateFormatWithYear;
@@ -75,6 +94,11 @@ public class Config {
 
         public ConfigBuilder setTimeFormat12HoursWithoutMins(String timeFormat12HoursWithoutMins) {
             this.timeFormat12HoursWithoutMins = timeFormat12HoursWithoutMins;
+            return this;
+        }
+
+        public ConfigBuilder setLanguage(@Language int language) {
+            this.language = language;
             return this;
         }
 

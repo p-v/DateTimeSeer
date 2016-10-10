@@ -2,9 +2,11 @@ package com.pv.datetimeseer.parser.handler.english;
 
 import android.content.Context;
 
+import com.pv.datetimeseer.Config;
 import com.pv.datetimeseer.parser.SuggestionValue;
 import com.pv.datetimeseer.parser.handler.SuggestionHandler;
 import com.pv.datetimeseer.parser.helper.Constants;
+import com.pv.datetimeseer.parser.helper.DateTimeUtils;
 import com.pv.datetimeseer.parser.model.DateItem;
 
 import java.text.DateFormat;
@@ -20,13 +22,15 @@ import java.util.regex.Pattern;
  * @author p-v
  */
 
-public class DateSuggestionHandler extends SuggestionHandler {
+public class DateSuggestionHandler_EN extends SuggestionHandler {
 
     private Pattern pDate;
+    private int language;
     private static final String DATE_RGX = "\\b(?:(0?[1-9]|[12][0-9]|3[01])(?:st|nd|rd|th)?\\s+\\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|january|february|march|april|may|june|july|august|september|october|november|december)\\b(?:(?:,?\\s*)(?:(?:20)?(\\d\\d)(?!:)))?|(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|january|february|march|april|may|june|july|august|september|october|november|december)\\s+(0?[1-9]|[12][0-9]|3[01])(?:st|nd|rd|th)?\\b(?:(?:,?\\s*)(?:\\b(?:20)?(\\d\\d)(?!:))\\b)?)\\b";
 
-    public DateSuggestionHandler() {
+    public DateSuggestionHandler_EN(@Config.Language int language) {
         pDate = Pattern.compile(DATE_RGX, Pattern.CASE_INSENSITIVE);
+        this.language = language;
     }
 
     @Override
@@ -52,9 +56,9 @@ public class DateSuggestionHandler extends SuggestionHandler {
             }
             DateFormat fmt;
             if(month.length() == 3){
-                fmt = new SimpleDateFormat(Constants.MONTH_FORMAT_SHORT, Locale.ENGLISH);
+                fmt = new SimpleDateFormat(Constants.MONTH_FORMAT_SHORT, DateTimeUtils.getLocaleFromLanguage(language));
             }else{
-                fmt = new SimpleDateFormat(Constants.MONTH_FORMAT_LONG, Locale.ENGLISH);
+                fmt = new SimpleDateFormat(Constants.MONTH_FORMAT_LONG, DateTimeUtils.getLocaleFromLanguage(language));
             }
             Date date = null;
             try {
@@ -85,8 +89,4 @@ public class DateSuggestionHandler extends SuggestionHandler {
         super.handle(context, input, suggestionValue);
     }
 
-    @Override
-    public int getType() {
-        return Type.DATE_SUGGESTION;
-    }
 }

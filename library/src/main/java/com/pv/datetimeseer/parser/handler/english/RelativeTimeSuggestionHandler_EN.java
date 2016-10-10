@@ -13,13 +13,13 @@ import java.util.regex.Pattern;
  * @author p-v
  */
 
-public class RelativeTimeSuggestionHandler extends SuggestionHandler {
+public class RelativeTimeSuggestionHandler_EN extends SuggestionHandler {
 
     private static final String REGEX = "\\b(?:(tod(?:a(?:y)?)?)|(tom(?:o(?:r(?:r(?:o(?:w)?)?)?)?)?)" +
             "|(day after tomorrow)|((?:ton(?:i(?:g(?:(?:h)?t)?)?)?)|(?:ton(?:i(?:t(?:e)?)?)?)))\\b";
     private Pattern pRel;
 
-    public RelativeTimeSuggestionHandler() {
+    public RelativeTimeSuggestionHandler_EN() {
         pRel = Pattern.compile(REGEX, Pattern.CASE_INSENSITIVE);
     }
 
@@ -42,8 +42,5 @@ public class RelativeTimeSuggestionHandler extends SuggestionHandler {
         }
         super.handle(context, input, suggestionValue);
     }
-    @Override
-    public int getType() {
-        return 0;
-    }
+
 }

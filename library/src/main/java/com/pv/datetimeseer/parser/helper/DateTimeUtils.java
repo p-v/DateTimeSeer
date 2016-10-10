@@ -17,7 +17,8 @@ import java.util.Locale;
 public class DateTimeUtils {
 
     public static String getDisplayDate(Calendar cal, Config config) {
-        DateFormat df = new SimpleDateFormat(config.getDateFormatWithoutYear(), Locale.ENGLISH);
+        DateFormat df = new SimpleDateFormat(config.getDateFormatWithoutYear(),
+                getLocaleFromLanguage(config.getLanguage()));
         return df.format(cal.getTime());
     }
 
@@ -33,7 +34,7 @@ public class DateTimeUtils {
                 format = config.getTimeFormat12HoursWithMins();
             }
         }
-        DateFormat df = new SimpleDateFormat(format, Locale.ENGLISH);
+        DateFormat df = new SimpleDateFormat(format, getLocaleFromLanguage(config.getLanguage()));
         return df.format(cal.getTime());
     }
 
@@ -92,6 +93,16 @@ public class DateTimeUtils {
                 return Calendar.SUNDAY == dayOfWeek;
             default:
                 return false;
+        }
+    }
+
+    public static Locale getLocaleFromLanguage(@Config.Language int language) {
+        switch (language) {
+            case Config.Language.ENGLISH:
+                return Locale.ENGLISH;
+            // TODO add more languages here
+            default:
+                return Locale.ENGLISH;
         }
     }
 }

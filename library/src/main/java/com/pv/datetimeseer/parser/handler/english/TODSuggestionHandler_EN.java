@@ -17,12 +17,12 @@ import static com.pv.datetimeseer.parser.helper.Constants.TOD_NIGHT;
  * @author p-v
  */
 
-public class TODSuggestionHandler extends SuggestionHandler {
+public class TODSuggestionHandler_EN extends SuggestionHandler {
 
     private static final String REGEX = "\\b(?:(morn(?:i(?:n(?:g)?)?)?)|(after(?=(?:\\S+|$))(?:n(?:o(?:o(?:n)?)?)?)?)|(even(?:i(?:n(?:g)?)?)?)|(ni(?:g(?:h(?:t)?)?)?))\\b";
     private Pattern pTod;
 
-    public TODSuggestionHandler() {
+    public TODSuggestionHandler_EN() {
         pTod = Pattern.compile(REGEX, Pattern.CASE_INSENSITIVE);
     }
 
@@ -44,8 +44,5 @@ public class TODSuggestionHandler extends SuggestionHandler {
         }
         super.handle(context, input, suggestionValue);
     }
-    @Override
-    public int getType() {
-        return 0;
-    }
+
 }

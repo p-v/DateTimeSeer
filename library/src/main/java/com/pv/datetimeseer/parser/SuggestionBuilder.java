@@ -22,9 +22,9 @@ import static com.pv.datetimeseer.parser.helper.Constants.TOD_MORNING;
 import static com.pv.datetimeseer.parser.helper.Constants.TOD_NIGHT;
 
 /**
- * Abstract Suggestion Handler
+ * Abstract Suggestion Builder
  *
- * Has all common methods use for displaying suggestions to the user
+ * Has all common methods used for building suggestions for the user
  *
  * The module is based on COR design pattern
  *
@@ -33,6 +33,7 @@ import static com.pv.datetimeseer.parser.helper.Constants.TOD_NIGHT;
 abstract class SuggestionBuilder {
 
     private SuggestionBuilder nextBuilder;
+    private Locale locale;
     Config config;
 
     static final int EVENING_TIME = 5;
@@ -46,6 +47,7 @@ abstract class SuggestionBuilder {
             config = new Config.ConfigBuilder().build();
         }
         this.config = config;
+        this.locale = DateTimeUtils.getLocaleFromLanguage(config.getLanguage());
     }
 
     /**
@@ -280,10 +282,10 @@ abstract class SuggestionBuilder {
      */
     final String getDisplayDate(Calendar cal) {
         if (Calendar.getInstance().get(Calendar.YEAR) == cal.get(Calendar.YEAR)) {
-            DateFormat df = new SimpleDateFormat(config.getDateFormatWithoutYear(), Locale.ENGLISH);
+            DateFormat df = new SimpleDateFormat(config.getDateFormatWithoutYear(), locale);
             return df.format(cal.getTime());
         } else {
-            DateFormat df = new SimpleDateFormat(config.getDateFormatWithYear(), Locale.ENGLISH);
+            DateFormat df = new SimpleDateFormat(config.getDateFormatWithYear(), locale);
             return df.format(cal.getTime());
         }
     }

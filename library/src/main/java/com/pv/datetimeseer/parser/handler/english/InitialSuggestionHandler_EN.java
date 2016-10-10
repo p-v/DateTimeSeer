@@ -12,13 +12,13 @@ import java.util.regex.Pattern;
  * @author p-v
  */
 
-public class InitialSuggestionHandler extends SuggestionHandler {
+public class InitialSuggestionHandler_EN extends SuggestionHandler {
 
     private static final String REGEX = "^\\s*(\\d{1,2})\\s*$";
 
     private Pattern p;
 
-    public InitialSuggestionHandler() {
+    public InitialSuggestionHandler_EN() {
         p = Pattern.compile(REGEX);
     }
 
@@ -44,8 +44,4 @@ public class InitialSuggestionHandler extends SuggestionHandler {
         }
     }
 
-    @Override
-    public int getType() {
-        return 0;
-    }
 }
