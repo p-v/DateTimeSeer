@@ -4,7 +4,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.widget.Filter;
 
-import java.util.ArrayList;
+import com.pv.datetimeseer.parser.SeerParserInitializer;
+
 import java.util.List;
 
 /**
@@ -17,41 +18,11 @@ public class SeerFilter extends Filter {
         void onSuggestionPublish(List<SuggestionRow> suggestionList);
     }
 
-    private InitialSuggestionHandler initialSuggestionHandler;
-
-
-    private Context context;
     private OnSuggestionPublishListener onSuggestionPublishListener;
+    private SeerParserInitializer parserInitializer;
 
     public SeerFilter(Context context, Config config) {
-
-        this.context = context;
-
-        // initialize all handlers
-        initialSuggestionHandler =
-                new InitialSuggestionHandler(config);
-        NumberRelativeTimeSuggestionHandler numberRelativeTimeSuggestionHandler = new NumberRelativeTimeSuggestionHandler(config);
-        RelativeTimeSuggestionHandler relativeTimeSuggestionHandler = new RelativeTimeSuggestionHandler(config);
-        DateSuggestionHandler dateSuggestionHandler = new DateSuggestionHandler(config);
-        DOWSuggestionHandler dowSuggestionHandler = new DOWSuggestionHandler(config);
-        TimeSuggestionHandler timeSuggestionHandler = new TimeSuggestionHandler(config);
-        TODSuggestionHandler todSuggestionHandler = new TODSuggestionHandler(config);
-
-        // build handler chain
-        initialSuggestionHandler.setNextHandler(numberRelativeTimeSuggestionHandler);
-        numberRelativeTimeSuggestionHandler.setNextHandler(relativeTimeSuggestionHandler);
-        relativeTimeSuggestionHandler.setNextHandler(dateSuggestionHandler);
-        dateSuggestionHandler.setNextHandler(dowSuggestionHandler);
-        dowSuggestionHandler.setNextHandler(timeSuggestionHandler);
-        timeSuggestionHandler.setNextHandler(todSuggestionHandler);
-
-        // build builder chain
-        initialSuggestionHandler.setNextBuilder(timeSuggestionHandler);
-        timeSuggestionHandler.setNextBuilder(todSuggestionHandler);
-        todSuggestionHandler.setNextBuilder(numberRelativeTimeSuggestionHandler);
-        numberRelativeTimeSuggestionHandler.setNextBuilder(relativeTimeSuggestionHandler);
-        relativeTimeSuggestionHandler.setNextBuilder(dateSuggestionHandler);
-        dateSuggestionHandler.setNextBuilder(dowSuggestionHandler);
+        parserInitializer = new SeerParserInitializer(context, config);
     }
 
     public SeerFilter(Context context) {
@@ -67,29 +38,14 @@ public class SeerFilter extends Filter {
         }
 
         String input = constraint.toString();
-        String[] splitString = input.split("\\s+");
 
-        // Stores information about the user input
-        SuggestionValue suggestionValue = new SuggestionValue();
-
-        // Interpret user input and store values in suggestion value
-        initialSuggestionHandler.handle(context, input, splitString[splitString.length - 1],
-                suggestionValue);
-
-        List<SuggestionRow> suggestionList = new ArrayList<>(3);
-
-        // Save values in instance so `SparseArrayCompat#get` method is not
-        // called again and again in the builders
-        suggestionValue.init();
-
-        // Build suggestion list base on the user input (i.e. the suggestion value)
-        initialSuggestionHandler.build(context, suggestionValue, suggestionList);
+        // get suggestions after parsing the input
+        List<SuggestionRow> suggestionList = parserInitializer.buildSuggestions(input);
 
         // update result
         results.values = suggestionList;
         results.count = suggestionList.size();
         return results;
-
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.pv.datetimeseer;
+package com.pv.datetimeseer.parser;
 
 import android.support.v4.util.SparseArrayCompat;
 

@@ -1,6 +1,11 @@
-package com.pv.datetimeseer;
+package com.pv.datetimeseer.parser;
 
 import android.content.Context;
+
+import com.pv.datetimeseer.Config;
+import com.pv.datetimeseer.SuggestionRow;
+import com.pv.datetimeseer.parser.helper.Constants;
+import com.pv.datetimeseer.parser.helper.DateTimeUtils;
 
 import java.util.Calendar;
 import java.util.List;
@@ -25,7 +30,7 @@ class DOWSuggestionHandler extends SuggestionHandler {
     }
 
     @Override
-    public void handle(Context context, String input, String lastToken, SuggestionValue suggestionValue) {
+    public void handle(Context context, String input, SuggestionValue suggestionValue) {
         Matcher matcher = pDow.matcher(input);
         if (matcher.find()) {
             int value = -1;
@@ -60,7 +65,7 @@ class DOWSuggestionHandler extends SuggestionHandler {
             }
         }
 
-        super.handle(context, input, lastToken, suggestionValue);
+        super.handle(context, input, suggestionValue);
     }
 
     @Override

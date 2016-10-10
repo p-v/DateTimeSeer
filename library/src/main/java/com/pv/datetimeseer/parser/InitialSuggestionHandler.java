@@ -1,6 +1,11 @@
-package com.pv.datetimeseer;
+package com.pv.datetimeseer.parser;
 
 import android.content.Context;
+
+import com.pv.datetimeseer.Config;
+import com.pv.datetimeseer.R;
+import com.pv.datetimeseer.SuggestionRow;
+import com.pv.datetimeseer.parser.helper.DateTimeUtils;
 
 import java.util.Calendar;
 import java.util.List;
@@ -25,7 +30,7 @@ class InitialSuggestionHandler extends SuggestionHandler {
     }
 
     @Override
-    public void handle(Context context, String input, String lastToken, SuggestionValue suggestionValue) {
+    public void handle(Context context, String input, SuggestionValue suggestionValue) {
         if (input.trim().length() == 2 && input.trim().matches("(?i)^to")) {
             // if only 2 char input is there and that is 't0', do not go further,
             // consider it as today and tomorrow, and show suggestions accordingly
@@ -38,10 +43,10 @@ class InitialSuggestionHandler extends SuggestionHandler {
                 if (number > 0) {
                     suggestionValue.appendSuggestion(SuggestionValue.NUMBER, number);
                 } else {
-                    super.handle(context, input, lastToken, suggestionValue);
+                    super.handle(context, input, suggestionValue);
                 }
             } else {
-                super.handle(context, input, lastToken, suggestionValue);
+                super.handle(context, input, suggestionValue);
             }
         }
     }

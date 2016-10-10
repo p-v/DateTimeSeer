@@ -1,6 +1,9 @@
-package com.pv.datetimeseer;
+package com.pv.datetimeseer.parser.helper;
 
 import android.content.Context;
+
+import com.pv.datetimeseer.Config;
+import com.pv.datetimeseer.parser.helper.Constants;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -11,14 +14,14 @@ import java.util.Locale;
  * @author p-v
  */
 @SuppressWarnings("WrongConstant")
-class DateTimeUtils {
+public class DateTimeUtils {
 
-    static String getDisplayDate(Calendar cal, Config config) {
+    public static String getDisplayDate(Calendar cal, Config config) {
         DateFormat df = new SimpleDateFormat(config.getDateFormatWithoutYear(), Locale.ENGLISH);
         return df.format(cal.getTime());
     }
 
-    static String getDisplayTime(Context context, Calendar cal, Config config) {
+    public static String getDisplayTime(Context context, Calendar cal, Config config) {
 
         String format;
         if (android.text.format.DateFormat.is24HourFormat(context)) {
@@ -34,7 +37,7 @@ class DateTimeUtils {
         return df.format(cal.getTime());
     }
 
-    static int daysBetween(Calendar day1, Calendar day2) {
+    public static int daysBetween(Calendar day1, Calendar day2) {
         /**
          * Saved some effort using the solution described here,
          * http://stackoverflow.com/a/28865648/1587370
@@ -72,7 +75,7 @@ class DateTimeUtils {
      * @param weekendValue user's weekend value
      * @return true if weekend, false otherwise
      */
-    static boolean isWeekend(int dayOfWeek,
+    public static boolean isWeekend(int dayOfWeek,
                                     @Constants.Weekend int weekendValue) {
         switch (weekendValue) {
             case Constants.Weekend.SATURDAY_SUNDAY:

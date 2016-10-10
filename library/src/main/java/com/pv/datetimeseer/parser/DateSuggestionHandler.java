@@ -1,6 +1,11 @@
-package com.pv.datetimeseer;
+package com.pv.datetimeseer.parser;
 
 import android.content.Context;
+
+import com.pv.datetimeseer.Config;
+import com.pv.datetimeseer.SuggestionRow;
+import com.pv.datetimeseer.parser.helper.Constants;
+import com.pv.datetimeseer.parser.helper.DateTimeUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -38,7 +43,7 @@ class DateSuggestionHandler extends SuggestionHandler {
     }
 
     @Override
-    public void handle(Context context, String input, String lastToken, SuggestionValue suggestionValue) {
+    public void handle(Context context, String input, SuggestionValue suggestionValue) {
         Matcher m = pDate.matcher(input);
 
         if (m.find()) {
@@ -90,7 +95,7 @@ class DateSuggestionHandler extends SuggestionHandler {
                     new DateItem((int)(cal.getTimeInMillis()/1000), m.start(), m.end()));
         }
 
-        super.handle(context, input, lastToken, suggestionValue);
+        super.handle(context, input, suggestionValue);
     }
 
     @Override

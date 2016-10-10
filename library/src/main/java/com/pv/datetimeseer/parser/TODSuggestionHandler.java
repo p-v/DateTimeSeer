@@ -1,6 +1,10 @@
-package com.pv.datetimeseer;
+package com.pv.datetimeseer.parser;
 
 import android.content.Context;
+
+import com.pv.datetimeseer.Config;
+import com.pv.datetimeseer.R;
+import com.pv.datetimeseer.SuggestionRow;
 
 import java.util.Calendar;
 import java.util.List;
@@ -26,7 +30,7 @@ class TODSuggestionHandler extends SuggestionHandler {
     }
 
     @Override
-    public void handle(Context context, String input, String lastToken, SuggestionValue suggestionValue) {
+    public void handle(Context context, String input, SuggestionValue suggestionValue) {
         Matcher matcher = pTod.matcher(input);
         if (matcher.find()) {
             int value;
@@ -41,7 +45,7 @@ class TODSuggestionHandler extends SuggestionHandler {
             }
             suggestionValue.appendSuggestion(SuggestionValue.TIME_OF_DAY, value);
         }
-        super.handle(context, input, lastToken, suggestionValue);
+        super.handle(context, input, suggestionValue);
     }
 
     @Override

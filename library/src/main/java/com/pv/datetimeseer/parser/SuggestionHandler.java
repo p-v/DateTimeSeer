@@ -1,7 +1,13 @@
-package com.pv.datetimeseer;
+package com.pv.datetimeseer.parser;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+
+import com.pv.datetimeseer.Config;
+import com.pv.datetimeseer.R;
+import com.pv.datetimeseer.SuggestionRow;
+import com.pv.datetimeseer.parser.helper.Constants;
+import com.pv.datetimeseer.parser.helper.DateTimeUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,7 +36,7 @@ abstract class SuggestionHandler {
     static final int MORNING_TIME_WEEKEND = 10 * 60;
     static final int WEEKEND = Constants.Weekend.SATURDAY_SUNDAY;
 
-    public SuggestionHandler(Config config) {
+    SuggestionHandler(Config config) {
         if (config == null) {
             config = new Config.ConfigBuilder().build();
         }
@@ -74,13 +80,12 @@ abstract class SuggestionHandler {
      *
      * @param context The context to use.
      * @param input User input.
-     * @param lastToken Last token of the user input.
      * @param suggestionValue The value where all the related values are stored based on input (pass
      *                        empty the first time)
      */
-    public void handle(Context context, String input, String lastToken, SuggestionValue suggestionValue) {
+    public void handle(Context context, String input, SuggestionValue suggestionValue) {
         if (nextHandler != null) {
-            nextHandler.handle(context, input, lastToken, suggestionValue);
+            nextHandler.handle(context, input, suggestionValue);
         }
     }
 

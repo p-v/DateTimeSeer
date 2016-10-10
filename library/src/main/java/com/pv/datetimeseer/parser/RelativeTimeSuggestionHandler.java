@@ -1,6 +1,11 @@
-package com.pv.datetimeseer;
+package com.pv.datetimeseer.parser;
 
 import android.content.Context;
+
+import com.pv.datetimeseer.Config;
+import com.pv.datetimeseer.R;
+import com.pv.datetimeseer.SuggestionRow;
+import com.pv.datetimeseer.parser.helper.DateTimeUtils;
 
 import java.util.Calendar;
 import java.util.List;
@@ -31,7 +36,7 @@ class RelativeTimeSuggestionHandler extends SuggestionHandler {
     }
 
     @Override
-    public void handle(Context context, String input, String lastToken, SuggestionValue suggestionValue) {
+    public void handle(Context context, String input, SuggestionValue suggestionValue) {
         Matcher m = pRel.matcher(input);
         String text;
         if (m.find()) {
@@ -47,7 +52,7 @@ class RelativeTimeSuggestionHandler extends SuggestionHandler {
                 suggestionValue.appendSuggestion(SuggestionValue.RELATIVE_DAY, new RelativeDayItem(10, false));
             }
         }
-        super.handle(context, input, lastToken, suggestionValue);
+        super.handle(context, input, suggestionValue);
     }
 
     @Override
